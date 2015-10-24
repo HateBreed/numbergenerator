@@ -135,6 +135,7 @@ void screenupdate(nlist* first,int count, int type, int* numbers, int countn, in
 	printw("- [%3.d] [%2.d] ----------------\n",skipcount,simlimit);
 	printlist(first,count,type);
 	printw("-----------------------------\n");
+	printw("Press 'y' to print to stdout instead of ncurses screen");
 	if(numbers) {
 		printw("Skip #%d caused by: ",skipcount);
 		printarray(numbers,countn,typen);
@@ -183,7 +184,8 @@ void reinit_rand(int add) {
 
 int main(int argc, char *argv[]) {
 	if(argc < 3 || argc == 4 || argc > 5) {
-		printf("parametrit: <numeroita> <rivejä> <min num> <maxnum>\n");
+		printf("parameters: <numbers to select> <row count> <min num> <max num>\n");
+		printf("<numbers to select> = LOTTO: 7, VIKING: 6, EUROJACKPOT: 5\n");
 		exit(1);
 	}
 	int count = atoi(argv[1]);
@@ -293,6 +295,7 @@ int main(int argc, char *argv[]) {
 			if(x+1 == rows) screenupdate(first,count,maxnum,NULL,0,0,x+1);
 		}
 		cuser = getch();
+		//printw("Press 'y' to print to stdout instead of ncurses screen");
 		if(cuser != 'y') {
 			freelist(first);
 			first = NULL;
