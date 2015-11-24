@@ -135,7 +135,8 @@ void screenupdate(nlist* first,int count, int type, int* numbers, int countn, in
 	printw("- [%3.d] [%2.d] ----------------\n",skipcount,simlimit);
 	printlist(first,count,type);
 	printw("-----------------------------\n");
-	printw("Press 'y' to print to stdout instead of ncurses screen");
+	printw("Press 'r' to select new rows\n");
+	printw("Press 'y' to print current to stdout and quit\n");
 	if(numbers) {
 		printw("Skip #%d caused by: ",skipcount);
 		printarray(numbers,countn,typen);
@@ -243,7 +244,7 @@ int main(int argc, char *argv[]) {
 			for(int i = 0 ; i < count ; i++) {
 				exists = 0;
 				while(1) {
-					if(maxnum == (EUROJACK) && i > 4) value = rand() % 8;
+					if(maxnum == (EUROJACK) && i > 4) value = rand() % 11;
 					else value = rand() % maxnum;
 					if(lowlimit != -1 && highlimit != -1) {
 						if(value > lowlimit && value < highlimit) break;
@@ -258,7 +259,11 @@ int main(int argc, char *argv[]) {
 			if(maxnum != EUROJACK) sort(numbers,0,count-1);
 			else {
 				sort(numbers,0,4);
-				sort(&numbers[5],5,count-1);
+				if(numbers[5] > numbers[6]) {
+					int temp = numbers[5];
+					numbers[5] = numbers[6];
+					numbers[6] = temp;
+				}
 			}
 
 			if(skipline(first,numbers,count) == 0) {
